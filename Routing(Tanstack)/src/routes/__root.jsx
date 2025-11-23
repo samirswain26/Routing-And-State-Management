@@ -23,6 +23,9 @@ function RootComponent() {
         <div>
           <Link to={"/tea"}>Tea</Link>
         </div>
+        <div>
+          <Link to={"/Products"}>Product</Link>
+        </div>
       </div>
 
       <Outlet />
