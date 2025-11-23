@@ -14,8 +14,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TeaRouteImport } from './routes/tea'
 import { Route as GameRouteImport } from './routes/game'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as ApplicationRouteRouteImport } from './routes/Application/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProductPidRouteImport } from './routes/Product.$pid'
+import { Route as ApplicationDashboardRouteImport } from './routes/Application/Dashboard'
 
 const ProductsLazyRouteImport = createFileRoute('/Products')()
 
@@ -39,6 +41,11 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApplicationRouteRoute = ApplicationRouteRouteImport.update({
+  id: '/Application',
+  path: '/Application',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -49,49 +56,79 @@ const ProductPidRoute = ProductPidRouteImport.update({
   path: '/Product/$pid',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApplicationDashboardRoute = ApplicationDashboardRouteImport.update({
+  id: '/Dashboard',
+  path: '/Dashboard',
+  getParentRoute: () => ApplicationRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/Application': typeof ApplicationRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/game': typeof GameRoute
   '/tea': typeof TeaRoute
   '/Products': typeof ProductsLazyRoute
+  '/Application/Dashboard': typeof ApplicationDashboardRoute
   '/Product/$pid': typeof ProductPidRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/Application': typeof ApplicationRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/game': typeof GameRoute
   '/tea': typeof TeaRoute
   '/Products': typeof ProductsLazyRoute
+  '/Application/Dashboard': typeof ApplicationDashboardRoute
   '/Product/$pid': typeof ProductPidRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/Application': typeof ApplicationRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/game': typeof GameRoute
   '/tea': typeof TeaRoute
   '/Products': typeof ProductsLazyRoute
+  '/Application/Dashboard': typeof ApplicationDashboardRoute
   '/Product/$pid': typeof ProductPidRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/game' | '/tea' | '/Products' | '/Product/$pid'
-  fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/game' | '/tea' | '/Products' | '/Product/$pid'
-  id:
-    | '__root__'
+  fullPaths:
     | '/'
+    | '/Application'
     | '/about'
     | '/game'
     | '/tea'
     | '/Products'
+    | '/Application/Dashboard'
+    | '/Product/$pid'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/'
+    | '/Application'
+    | '/about'
+    | '/game'
+    | '/tea'
+    | '/Products'
+    | '/Application/Dashboard'
+    | '/Product/$pid'
+  id:
+    | '__root__'
+    | '/'
+    | '/Application'
+    | '/about'
+    | '/game'
+    | '/tea'
+    | '/Products'
+    | '/Application/Dashboard'
     | '/Product/$pid'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApplicationRouteRoute: typeof ApplicationRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   GameRoute: typeof GameRoute
   TeaRoute: typeof TeaRoute
@@ -129,6 +166,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/Application': {
+      id: '/Application'
+      path: '/Application'
+      fullPath: '/Application'
+      preLoaderRoute: typeof ApplicationRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -143,11 +187,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductPidRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/Application/Dashboard': {
+      id: '/Application/Dashboard'
+      path: '/Dashboard'
+      fullPath: '/Application/Dashboard'
+      preLoaderRoute: typeof ApplicationDashboardRouteImport
+      parentRoute: typeof ApplicationRouteRoute
+    }
   }
 }
 
+interface ApplicationRouteRouteChildren {
+  ApplicationDashboardRoute: typeof ApplicationDashboardRoute
+}
+
+const ApplicationRouteRouteChildren: ApplicationRouteRouteChildren = {
+  ApplicationDashboardRoute: ApplicationDashboardRoute,
+}
+
+const ApplicationRouteRouteWithChildren =
+  ApplicationRouteRoute._addFileChildren(ApplicationRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApplicationRouteRoute: ApplicationRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   GameRoute: GameRoute,
   TeaRoute: TeaRoute,
