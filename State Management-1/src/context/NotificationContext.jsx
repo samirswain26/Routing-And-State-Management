@@ -27,3 +27,15 @@ export function NotificationProvider({ children }) {
     </NotificationContext.Provider>
   );
 }
+
+
+// Custom Hooks ---> is used to exposed some data... (Rough meaning)
+
+export function useNotification(){
+    return useContext(NotificationContext)
+}
+
+
+// basically when the createContext is used the useContext is initiallized from behind the scene 
+// And the createContext create a store to put the data in it by the business logic functions and the using the provider
+// After successfully adding those data into it, the "useContext" is used to get the data where ever you want to show it...
