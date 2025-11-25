@@ -1,12 +1,26 @@
 import { useNotification } from "../context/NotificationContext";
+import { useStore } from "../store/cardStore";
 
 const Main = () => {
   const { count } = useNotification();
+
+  const { num} = useStore();
+
   return (
     <div>
-      Main page
+        <div>-----------------------------------------------------------------------------------------</div>
       <div>
-        The count is :<span>{count}</span>
+        Main page Content
+        <div>
+          The count is : <span>{count}</span>
+        </div>
+      </div>
+
+      <div>
+        -------Zustand Data in main page-------
+        <div>
+          Number is : <span>{num}</span>
+        </div>
       </div>
     </div>
   );
